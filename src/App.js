@@ -19,6 +19,10 @@ const particalsOption = {
 
 }
 
+/*
+      working properly
+      */
+
 class App extends Component {
   render() {
     return (
