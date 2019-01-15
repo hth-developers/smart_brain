@@ -3,6 +3,7 @@ import Particles from 'react-particles-js';
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
+import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLink from './components/ImageLink/ImageLink';
@@ -34,7 +35,8 @@ class App extends Component {
           input:'',
           imageURL:'',
           box:{},
-          route: 'signin'
+          route: 'signin',
+          isSignedIn: false
         }
       }
 
@@ -70,6 +72,13 @@ class App extends Component {
       }
 
       onRouteChange = (route) =>{
+        if(route === 'home'){
+          this.setState({isSignedIn:true})
+        }
+        else if(route === 'signout'){
+          this.setState({isSignedIn:false})
+        }
+
         this.setState({route:route});
       }
 
@@ -81,9 +90,8 @@ class App extends Component {
                       params={particalsOption}
                        />
         
-       <Navigation onRouteChange={this.onRouteChange}/>
-      { this.state.route === 'signin'?
-       <Signin onRouteChange={this.onRouteChange} />:
+       <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+      { this.state.route === 'home'?
        <div>
        <Logo />
        <Rank />
@@ -91,6 +99,9 @@ class App extends Component {
        onButtonClick={this.onButtonClick}/>
        <FaceRecognition box={this.state.box} imageURL={this.state.imageURL}/>
        </div>
+       :(
+         this.state.route === 'signin'? <Signin onRouteChange={this.onRouteChange} />: <Register onRouteChange={this.onRouteChange} />
+       )
        }
       </div>
     );
